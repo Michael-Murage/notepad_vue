@@ -139,7 +139,6 @@ async function deleteNote(id) {
                                     v-model="newNote.title"
                                 >
                             </div>
-                            <!-- <p class="mb-1 mt-0 px-4 text-red-400 text-sm" v-if="titleError">Title cannot be blank</p> -->
                             <div id="textarea-form">
                                 <textarea 
                                     class="text-gray-900 bg-white dark:bg-gray-900 dark:text-white"
@@ -149,7 +148,6 @@ async function deleteNote(id) {
                                     v-model="newNote.content"
                                 ></textarea>
                             </div>
-                            <!-- <p class="mb-1 mt-0 px-4 text-red-400 text-sm" v-if="contentError">Content cannot be blank</p> -->
                             <div id="submit-form">
                                 <input 
                                     type="submit" 
@@ -246,7 +244,7 @@ async function deleteNote(id) {
         box-shadow: 0 0 1em var(--light-blue);
         color: #fee;
     }
-    #submit-form, .submit-form{
+    #submit-form{
         display: flex;
         justify-content: center;
     }
@@ -258,120 +256,68 @@ async function deleteNote(id) {
         margin-left: 1.5px;
         margin-right: 1.5px;
     }
-#title-input, #textarea-input, .title-input, .textarea-input{
-  width: 60%;
-  border-radius: 0.5rem;
-  border: transparent;
-}
-#textarea-input, .textarea-input{
-  align-items: center;
-  width: 90%;
-}
-.title-input{
-    margin-left: 1em;
-}
-#textarea-input:hover, #title-input:hover, .textarea-input:hover, .title-input:hover{
-    background-color: transparent;
-    box-shadow: 0 0 2em #646cffaa;
-}
-#title-form, .about-form{
-  display: flex;
-  justify-content: flex-start;
-  margin-top: 2px;
-  padding-left: 1em;
-}
-#textarea-form, .textarea-form{
-  display: flex;
-  margin-bottom: 2px;
-  justify-content: center;
-  margin-top: 2px;
-}
-#submit-input, .submit-input{
-  width: 40%;
-  background-color: transparent;
-  margin-bottom: 2px;
-  border: transparent;
-}
-#submit-input:hover, .submit-input:hover{
-    box-shadow: 0 0 2em #545beeaa;
-    color: #fee;
-}
+    #title-input, #textarea-input, .title-input, .textarea-input{
+        width: 60%;
+        border-radius: 0.5rem;
+        border: transparent;
+    }
+    #textarea-input, .textarea-input{
+        align-items: center;
+        width: 90%;
+    }
+    .title-input{
+        margin-left: 1em;
+    }
+    #textarea-input:hover, #title-input:hover, .textarea-input:hover, .title-input:hover{
+        background-color: transparent;
+        box-shadow: 0 0 2em #646cffaa;
+    }
+    #title-form, .about-form{
+        display: flex;
+        justify-content: flex-start;
+        margin-top: 2px;
+        padding-left: 1em;
+    }
+    #textarea-form, .textarea-form{
+        display: flex;
+        margin-bottom: 2px;
+        justify-content: center;
+        margin-top: 2px;
+    }
+    #submit-input, .submit-input{
+        width: 40%;
+        background-color: transparent;
+        margin-bottom: 2px;
+        border: transparent;
+    }
+    #submit-input:hover, .submit-input:hover{
+        box-shadow: 0 0 2em #545beeaa;
+        color: #fee;
+    }
+    #submit-form{
+        display: flex;
+        justify-content: center;
+    }
 
-#submit-form, .submit-form{
-  display: flex;
-  justify-content: center;
-}
-
-.card-container, .card-form{
-  -webkit-box-shadow: 0px 5px 5px 4px rgba(0,0,0,0.49);
-  -moz-box-shadow: 0px 5px 5px 4px rgba(0,0,0,0.49);
-  box-shadow: 0px 5px 5px 4px rgba(0,0,0,0.49);
-}
-.card-container{
-  z-index: 0;
-  width: 100%;
-  display: flex;
-  justify-content: space-around;
-  flex-wrap: wrap;
-  background-color: #ccc;
-  border-radius: 20px;
-  
-}
-.all-cards{
-  display: flex;
-  flex-direction: column;
-  background-color: #ccc;
-  border-radius: 10px;
-  padding: 0 0.5rem;
-}
-.card{
-  margin-top: 5px;
-  margin-bottom: 5px;
-  box-shadow: 0px 1px 4px 3px rgba(0,0,0,0.49);
-  max-width: auto;
-  /* max-height: fit-content; */
-  min-width: min-content;
-}
-.delete-note{
-  background-color: transparent;
-  font-weight: 800;
-  font-size: small;
-  height: 1.5rem;
-  width: 1.5rem;
-  border: transparent;
-}
-.delete-note:hover{
-    border-top: transparent;
-    border-right: transparent;
-    border-radius: 7px;
-    box-shadow: 0px 1px 4px 3px rgba(0,0,0,0.49);
-}
-.none{
-  display: none;
-}
-.block{
-  display: block;
-}
-#home-link, #about-link, #links{
-  margin-right: 1.5rem;
-  background-color: transparent;
-  text-decoration: none;
-  color: black;
-  font-weight: 400;
-  color: #555;
-  font-family: Ubuntu, Helvetica, sans-serif;
-  /* padding: 0 0.5rem 0 0.5rem; */
-}
-#home-link.active, #about-link.active, #links.active{
-  width: fit-content;
-  color: rgb(231, 136, 12);
-}
-#home-link:hover, #about-link:hover, #links:hover{
-    color: burlywood;
-}
-#links-container{
-  display: flex;
-  height: 100%;
-  margin-right: 0.5rem;
-}
+    .card{
+        margin-top: 5px;
+        margin-bottom: 5px;
+        box-shadow: 0px 1px 4px 3px rgba(0,0,0,0.49);
+        max-width: auto;
+        min-width: min-content;
+    }
+    .delete-note{
+        background-color: transparent;
+        font-weight: 800;
+        font-size: small;
+        height: 1.5rem;
+        width: 1.5rem;
+        border: transparent;
+    }
+    .delete-note:hover{
+        border-top: transparent;
+        border-right: transparent;
+        border-radius: 7px;
+        box-shadow: 0px 1px 4px 3px rgba(0,0,0,0.49);
+    }
 </style>

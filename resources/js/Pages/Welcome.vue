@@ -1,52 +1,50 @@
 <script setup>
 import { Head, Link } from '@inertiajs/vue3';
 
-// defineProps({
-//     canLogin: {
-//         type: Boolean,
-//     },
-//     canRegister: {
-//         type: Boolean,
-//     },
-//     laravelVersion: {
-//         type: String,
-//         required: true,
-//     },
-//     phpVersion: {
-//         type: String,
-//         required: true,
-//     },
-// });
+defineProps({
+    canLogin: {
+        type: Boolean,
+    },
+    canRegister: {
+        type: Boolean,
+    }
+});
 </script>
 
 <template>
     <Head title="Notepad: Welcome" />
 
-    <div class="border border-red-300 flex" style="height: 100vh;">
-        <div class="mx-auto my-auto border flex flex-col px-16">
+    <div class="flex bg-white dark:bg-gray-900" style="height: 100vh;">
+        <div class="mx-auto my-auto flex flex-col px-16" v-if="canLogin">
             <Link 
+                v-if="$page.props.auth.user"
                 :href="route('dashboard')" 
-                class="py-2 px-3 border rounded-md mx-4 my-4"
+                class="py-2 px-16 text-center rounded-md mx-4 my-4 bg-transparent hover:shadow-md hover:bg-gray-600 text-gray-800 hover:text-white dark:text-white dark:hover:text-gray-900 dark:hover:bg-gray-100"
             >
                 <div
-                    class="text-2xl font-semibold text-gray-600 hover:text-gray-900 focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500"
+                    class="text-2xl font-semibold focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500"
                 >
                     Dashboard
                 </div>
             </Link>
-            <Link :href="route('login')" class="py-2 px-3 border rounded-md mx-4 my-4">
+            <Link 
+                v-if="!$page.props.auth.user"
+                :href="route('login')" 
+                class="py-2 px-16 text-center rounded-md mx-4 my-4 bg-transparent hover:shadow-md hover:bg-gray-600 text-gray-800 hover:text-white dark:text-white dark:hover:text-gray-900 dark:hover:bg-gray-100"
+            >
                 <div
-                    class="text-2xl font-semibold text-gray-600 hover:text-gray-900 focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500"
+                    class="text-2xl font-semibold focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500"
                 >
                     Log in
                 </div>
             </Link>
             <Link 
+                v-if="canRegister && !$page.props.auth.user"
                 :href="route('register')"
-                class="py-2 px-3 border rounded-md mx-4 my-4"
+                class="py-2 px-16 text-center rounded-md mx-4 my-4 bg-transparent hover:shadow-md hover:bg-gray-600 text-gray-800 hover:text-white dark:text-white dark:hover:text-gray-900 dark:hover:bg-gray-100"
             >
                 <div
-                    class="text-2xl font-semibold text-gray-600 hover:text-gray-900 focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500"
+                    class="text-2xl font-semibold focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500"
                 >
                     Register
                 </div>
