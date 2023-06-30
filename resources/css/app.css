@@ -5,3 +5,11 @@
 :root {
     --light-blue: #88CCCC;
 }
+.card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    word-wrap: break-word;
+    background-clip: border-box;
+    box-shadow: 0px 1px 4px 3px rgba(0,0,0,0.49);
+}

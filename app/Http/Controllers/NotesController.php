@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Notes;
 use Illuminate\Http\Request;
-use App\Models\User;
 
 class NotesController extends Controller
 {
@@ -34,13 +33,15 @@ class NotesController extends Controller
             'content' => 'required|string'
         ]);
 
-        $id = User::all()->first()->id;
+        if (!$request->user_id) {
+            abort(401, 'Not logged in');
+        }
         
         // try {
             $newNote = Notes::create([
                 'title' => $request->title,
                 'content' => $request->content,
-                'user_id' => $request->user_id ? $request->user_id : $id
+                'user_id' => $request->user_id
             ]);
 
             if ($newNote) {

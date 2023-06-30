@@ -1,16 +1,25 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head } from '@inertiajs/vue3';
-import { onMounted } from 'vue';
+import { onBeforeMount, onMounted } from 'vue';
 import { ref } from 'vue';
 import { toast } from 'vue3-toastify';
+import NotesDisplay from './NotesDisplay.vue';
 
-const newNote = ref({
-    title: '',
-    content: ''
+
+const props = defineProps({
+    user_id: { 
+        type: Number
+    }
 });
 
 const data = ref([]);
+
+const newNote = ref({
+    title: '',
+    content: '',
+    user_id: props.user_id
+});
 
 async function fetchData() {
     try {
@@ -27,9 +36,7 @@ async function fetchData() {
     }
 }
 
-onMounted(() => {
-    fetchData();
-});
+onMounted(fetchData);
 
 function latestId() {
     if (data.value.length === 0) {
@@ -74,7 +81,8 @@ async function saveNote(e) {
             );
             newNote.value = {
                 title: '',
-                content: ''
+                content: '',
+                user_id: props.user_id
             };
         } else {
             const errorJson = await resp.json();
@@ -95,7 +103,7 @@ async function deleteNote(id) {
                 accept: 'application/json'
             }
         });
-
+    
         if (resp.ok) {
             const jsonResp = await resp.json();
             toast(jsonResp);
@@ -168,7 +176,6 @@ async function deleteNote(id) {
                     </div>
                 </div>
             </div>
-
             <div class="flex flex-wrap justify-around mx-8 mt-8">
                 <div 
                     v-for="note in (Array.isArray(data) ? data : [])" 
@@ -176,37 +183,15 @@ async function deleteNote(id) {
                     class="card rounded-md mx-3 my-3"
                     style="width: auto; background-color: rgb(133, 189, 125);"
                 >
-                    <div class="flex">
-                        
-                        <h2 class="font-semibold" style="font-size: 2em;">{{ note.title }}</h2>
-
-                        <button 
-                            class="delete-note ml-auto hover:text-red-500" 
-                            title="Delete note"
-                            @click="deleteNote(note.id)"
-                        >
-                            X
-                        </button>
-                    </div>
-                    <div class="my-2">
-                        <p>{{ note.content }}</p>
-                    </div>
+                    <NotesDisplay :note="note" v-on:delete="(id) => deleteNote(id)"/>
                 </div>
             </div>
-            
         </div>
     </AuthenticatedLayout>
 </template>
 
 <style>
-    .card {
-        position: relative;
-        display: flex;
-        flex-direction: column;
-        min-width: 0;
-        word-wrap: break-word;
-        background-clip: border-box;
-    }
+    
     #title-input, #textarea-input, .title-input, .textarea-input{
         width: 60%;
         border-radius: 0.5rem;
@@ -297,27 +282,5 @@ async function deleteNote(id) {
     #submit-form{
         display: flex;
         justify-content: center;
-    }
-
-    .card{
-        margin-top: 5px;
-        margin-bottom: 5px;
-        box-shadow: 0px 1px 4px 3px rgba(0,0,0,0.49);
-        max-width: auto;
-        min-width: min-content;
-    }
-    .delete-note{
-        background-color: transparent;
-        font-weight: 800;
-        font-size: small;
-        height: 1.5rem;
-        width: 1.5rem;
-        border: transparent;
-    }
-    .delete-note:hover{
-        border-top: transparent;
-        border-right: transparent;
-        border-radius: 7px;
-        box-shadow: 0px 1px 4px 3px rgba(0,0,0,0.49);
     }
 </style>
