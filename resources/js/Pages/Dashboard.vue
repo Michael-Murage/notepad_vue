@@ -1,10 +1,11 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head } from '@inertiajs/vue3';
-import { onBeforeMount, onMounted } from 'vue';
+import { onMounted } from 'vue';
 import { ref } from 'vue';
 import { toast } from 'vue3-toastify';
 import NotesDisplay from './NotesDisplay.vue';
+import NewNote from './NewNote.vue';
 
 
 const props = defineProps({
@@ -14,12 +15,6 @@ const props = defineProps({
 });
 
 const data = ref([]);
-
-const newNote = ref({
-    title: '',
-    content: '',
-    user_id: props.user_id
-});
 
 async function fetchData() {
     try {
@@ -37,62 +32,6 @@ async function fetchData() {
 }
 
 onMounted(fetchData);
-
-function latestId() {
-    if (data.value.length === 0) {
-        return 1;
-    } else {
-        const lastElement = data.value[data.value.length - 1];
-        const id = lastElement.id + 1;
-        return id;
-    }
-}
-
-async function saveNote(e) {
-    e.preventDefault();
-    if (!newNote.value.title) {
-        toast('Title cannot be empty');
-        return;
-    }
-    if (!newNote.value.content) {
-        toast('Content cannot be empty');
-        return;
-    }
-    
-    try {
-        const resp = await fetch('/api/notes', {
-            headers: {
-                'Content-Type': 'application/json',
-                accept: 'application/json'
-            },
-            method: 'POST',
-            body: JSON.stringify(newNote.value)
-        });
-
-        if (resp.ok) {
-            const jsonResp = await resp.json();
-            toast(jsonResp);
-            data.value.push(
-                {
-                    title: newNote.value.title,
-                    content: newNote.value.content,
-                    id: latestId()
-                }
-            );
-            newNote.value = {
-                title: '',
-                content: '',
-                user_id: props.user_id
-            };
-        } else {
-            const errorJson = await resp.json();
-            toast.error(errorJson.message);
-        }
-    } catch (error) {
-        toast.error(error.message);
-    }
-    
-}
 
 async function deleteNote(id) {
     try {
@@ -117,6 +56,24 @@ async function deleteNote(id) {
     }
 }
 
+function updateDisplayedNotes(newNote) {
+    data.value.push({
+        title: newNote.title,
+        content: newNote.content,
+        id: latestId()
+    });
+}
+
+function latestId() {
+    if (data.value.length === 0) {
+        return 1;
+    } else {
+        const lastElement = data.value[data.value.length - 1];
+        const id = lastElement.id + 1;
+        return id;
+    }
+}
+
 </script>
 
 <template>
@@ -132,47 +89,7 @@ async function deleteNote(id) {
                 <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 text-gray-900 dark:text-gray-100">
 
-                        <form 
-                            class="rounded-lg card py-2 bg-indigo-400 dark:bg-indigo-900"
-                            style="width: 18rem; 
-                            margin-top: 2px;"
-                            id="inputForm"
-                        >
-                            <div id="title-form">
-                                <input 
-                                    type="text" 
-                                    class="text-gray-900 bg-white dark:bg-gray-900 dark:text-white"
-                                    id="title-input" 
-                                    placeholder="Enter title"
-                                    v-model="newNote.title"
-                                >
-                            </div>
-                            <div id="textarea-form">
-                                <textarea 
-                                    class="text-gray-900 bg-white dark:bg-gray-900 dark:text-white"
-                                    placeholder="Enter note content..." 
-                                    id="textarea-input" 
-                                    style="resize: none;"
-                                    v-model="newNote.content"
-                                ></textarea>
-                            </div>
-                            <div id="submit-form">
-                                <input 
-                                    type="submit" 
-                                    class="text-gray-900 dark:text-white"
-                                    id="submit-input" 
-                                    value="Save"
-                                    title="Save note"
-                                    @click="saveNote($event)"
-                                >
-                                <!-- <input 
-                                    type="button" 
-                                    class="text-gray-900 dark:text-white submit-input"
-                                    title="Resize is off" 
-                                    value="Toggle resize"
-                                > -->
-                            </div>
-                        </form>
+                        <NewNote v-on:update="(newNote) => updateDisplayedNotes(newNote)" :user_id="props.user_id"/>
                     </div>
                 </div>
             </div>
