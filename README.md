@@ -10,10 +10,12 @@ The setup below assumes:
     <li>You have php installed</li>    
     <li>You have composer installed</li>
     <li>You have mysql installed</li>
-    <li>You have created a database in mysql called `notepad_vue` installed</li>
+    <li>You have created a database in mysql called 
+    <span style="color: gold;">notepad_vue</span>
+     installed</li>
 </ul>
 
-If the above conditions have been met, the continue with the steps below.
+If the above conditions have been met, then continue with the steps below.
 
 To start up the application:
 
@@ -29,4 +31,4 @@ To start up the application:
     ```
 4. Navigate to http://localhost:8000
 
-From there, you will register with the application's interface and start creating notes.
+From there, you will register with the application's interface and start creating and editing notes.
