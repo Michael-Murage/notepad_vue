@@ -21,7 +21,7 @@ async function fetchData() {
         const resp = await fetch('/api/notes');
         if (resp.ok) {
             const jsonResp = await resp.json();
-            data.value = jsonResp;
+            data.value = jsonResp.filter(note => note.user_id === props.user_id);
         } else {
             const errorJson = await resp.json();
             toast.error(errorJson.message);
@@ -108,7 +108,11 @@ function latestId() {
 </template>
 
 <style>
-    
+    * {
+        box-sizing: border-box;
+        margin-left: 1.5px;
+        margin-right: 1.5px;
+    }
     #title-input, #textarea-input, .title-input, .textarea-input{
         width: 60%;
         border-radius: 0.5rem;
@@ -152,52 +156,5 @@ function latestId() {
     }
     .flex-wrap{
         flex-wrap: wrap;
-    }
-    * {
-        box-sizing: border-box;
-        margin-left: 1.5px;
-        margin-right: 1.5px;
-    }
-    #title-input, #textarea-input, .title-input, .textarea-input{
-        width: 60%;
-        border-radius: 0.5rem;
-        border: transparent;
-    }
-    #textarea-input, .textarea-input{
-        align-items: center;
-        width: 90%;
-    }
-    .title-input{
-        margin-left: 1em;
-    }
-    #textarea-input:hover, #title-input:hover, .textarea-input:hover, .title-input:hover{
-        background-color: transparent;
-        box-shadow: 0 0 2em #646cffaa;
-    }
-    #title-form, .about-form{
-        display: flex;
-        justify-content: flex-start;
-        margin-top: 2px;
-        padding-left: 1em;
-    }
-    #textarea-form, .textarea-form{
-        display: flex;
-        margin-bottom: 2px;
-        justify-content: center;
-        margin-top: 2px;
-    }
-    #submit-input, .submit-input{
-        width: 40%;
-        background-color: transparent;
-        margin-bottom: 2px;
-        border: transparent;
-    }
-    #submit-input:hover, .submit-input:hover{
-        box-shadow: 0 0 2em #545beeaa;
-        color: #fee;
-    }
-    #submit-form{
-        display: flex;
-        justify-content: center;
     }
 </style>

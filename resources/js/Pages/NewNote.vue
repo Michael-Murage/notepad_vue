@@ -12,6 +12,8 @@ const newNote = ref({
     user_id: props.user_id
 });
 
+const resizeOption = ref(false);
+
 async function saveNote(e) {
     e.preventDefault();
     if (!newNote.value.title) {
@@ -53,7 +55,10 @@ async function saveNote(e) {
     } catch (error) {
         toast.error(error.message);
     }
-    
+}
+
+function switchResize() {
+    resizeOption.value = !resizeOption.value;
 }
 </script>
 
@@ -78,7 +83,7 @@ async function saveNote(e) {
                 class="text-gray-900 bg-white dark:bg-gray-900 dark:text-white"
                 placeholder="Enter note content..." 
                 id="textarea-input" 
-                style="resize: none;"
+                :style="{resize: (resizeOption ? 'both' : 'none')}"
                 v-model="newNote.content"
             ></textarea>
         </div>
@@ -91,12 +96,13 @@ async function saveNote(e) {
                 title="Save note"
                 @click="saveNote($event)"
             >
-            <!-- <input 
+            <input 
                 type="button" 
                 class="text-gray-900 dark:text-white submit-input"
                 title="Resize is off" 
                 value="Toggle resize"
-            > -->
+                @click="switchResize"
+            >
         </div>
     </form>
 </template>

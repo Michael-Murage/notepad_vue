@@ -76,7 +76,20 @@ class NotesController extends Controller
      */
     public function update(Request $request, Notes $notes)
     {
-        //
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'content' => 'required|string'
+        ]);
+
+        $note = Notes::find(intval($request->id));
+        if ($note->title !== $request->title) {
+            $note->title = $request->title;
+        }
+        if ($note->content !== $request->content) {
+            $note->content = $request->content;
+        }
+        $note->save();
+        return response()->json('Edit successful');
     }
 
     /**
