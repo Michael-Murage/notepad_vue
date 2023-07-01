@@ -17,7 +17,11 @@ createInertiaApp({
         return createApp({ render: () => h(App, props) })
             .use(plugin)
             .use(ZiggyVue, Ziggy)
-            .use(Vue3Toastify, { autoClose: 3000 })
+            .use(Vue3Toastify, { 
+                autoClose: 3000, 
+                position: 'top-center',
+                progressStyle: {background: 'rgb(20 83 45 / var(--tw-bg-opacity))'}
+            })
             .mount(el);
     },
     progress: {

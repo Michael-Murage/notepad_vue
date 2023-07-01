@@ -139,13 +139,13 @@ const showingNavigationDropdown = ref(false);
             <!-- Page Heading -->
             <header class="bg-white dark:bg-gray-800 shadow" v-if="$slots.header">
                 <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                    <slot name="header" :user="$page.props.auth" :x="$slots" ></slot>
+                    <slot name="header" id="$page.props.auth.user.id" :x="$slots" />
                 </div>
             </header>
 
             <!-- Page Content -->
             <main>
-                <slot :user="$page.props.auth" :x="$slots" ></slot>
+                <slot id="$page.props.auth.user.id" :x="$slots" />
             </main>
         </div>
     </div>

@@ -26,7 +26,10 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
+    $id = Auth::user()->id;
+    return Inertia::render('Dashboard', [
+        'user_id' => $id
+    ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
