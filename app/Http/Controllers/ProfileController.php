@@ -10,9 +10,43 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use Inertia\Response;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Foundation\Application;
 
 class ProfileController extends Controller
 {
+    /**
+     * Show the welcome component
+     */
+    public function showWelcome(): Response
+    {
+        return Inertia::render('Welcome', [
+            'canLogin' => Route::has('login'),
+            'canRegister' => Route::has('register'),
+            'laravelVersion' => Application::VERSION,
+            'phpVersion' => PHP_VERSION,
+        ]);
+    }
+
+    /**
+     * Show dashboard view
+     */
+    public function showDashboard(): Response
+    {
+        $id = Auth::user()->id;
+        return Inertia::render('Dashboard', [
+            'user_id' => $id
+        ]);
+    }
+
+    /**
+     * Return the user object in session
+     */
+    public function returnUser(Request $request): Request
+    {
+        return $request->user();
+    }
+
     /**
      * Display the user's profile form.
      */

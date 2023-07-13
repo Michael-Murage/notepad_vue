@@ -49,7 +49,11 @@ async function deleteNote(id) {
             data.value = data.value.filter(item => item.id !== id);
         } else {
             const errorJson = await resp.json();
-            toast.error(errorJson.message);
+            if (errorJson.message === "Call to a member function delete() on null") {
+                toast.error("Please refresh the page and delete the note again")
+            } else {
+                toast.error(errorJson.message);
+            }
         }
     } catch (error) {
         toast.error(error.message);

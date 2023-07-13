@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Notes;
 use Illuminate\Http\Request;
+use App\Http\Requests\NotesRequest;
 
 class NotesController extends Controller
 {
@@ -26,15 +27,13 @@ class NotesController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(NotesRequest $request)
     {
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'content' => 'required|string'
-        ]);
-
+        $unauthorised_status = config()->get('variables')['UNAUTHORISED_STATUS'];
+        $bad_request_status = config()->get('variables')['BAD_REQUEST_STATUS'];
+        
         if (!$request->user_id) {
-            abort(401, 'Not logged in');
+            abort($unauthorised_status, 'Not logged in');
         }
         
         // try {
@@ -47,7 +46,7 @@ class NotesController extends Controller
             if ($newNote) {
                 return response()->json('Note saved');
             } else {
-                abort(400, 'Something went wrong');
+                abort($bad_request_status, 'Something went wrong');
             }
         // } catch (\Throwable $th) {
         //     abort(400, 'Something went wrong');
